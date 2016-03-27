@@ -1,0 +1,39 @@
+html
+  head
+    title Login
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    // Bootstrap core CSS
+    link(href='css/bootstrap-darkly.css', rel='stylesheet')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+    // Custom styles for this template
+    link(href='css/main.css', rel='stylesheet')
+  body
+    br
+    br
+    .container
+      .well.bs-component
+        h2 #{title}
+        form.form-horizontal(method='post')
+          fieldset
+            legend Login
+            .form-group
+              label.col-lg-2.control-label(for='inputUsername') Username
+              .col-lg-10
+                input#inputEmail.form-control(type='text', name='inputUsername', placeholder='Username')
+            #bl_inputPassword_form-group.form-group
+              label.col-lg-2.control-label(for='inputPassword') Password
+              .col-lg-10
+                input#inputPassword.form-control.pwd(type='password', name='inputPassword', placeholder='Password')
+            .form-group
+              .col-lg-10.col-lg-offset-2
+                button#bl_submit.btn.btn-primary(type='submit') Login
+                p
+                a.btn.btn-success(href='register') Register
+    //
+      Bootstrap core JavaScript
+      ==================================================
+    // Placed at the end of the document so the pages load faster
+    script(src='js/jquery.min.js')
+    script(src='js/jquery.timeago.js')
+    script(src='js/bootstrap.min.js')

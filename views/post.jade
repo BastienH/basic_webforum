@@ -1,0 +1,98 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='icon', href='../../favicon.ico')
+    title View Post
+    // Bootstrap core CSS
+    link(href='/css/bootstrap-darkly.css', rel='stylesheet')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+    // Custom styles for this template
+    link(href='/css/main.css', rel='stylesheet')
+  body
+    script(type='text/javascript').
+      console.log("test")
+      post =!{JSON.stringify(post)};
+      replies =!{JSON.stringify(replies)};
+    
+    br
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+          // <i class='fa fa-spin fa-spinner fa-2x'></i>
+          a.navbar-brand(href='/') Forum
+        #navbar.navbar-collapse.collapse
+          .navbar-left
+            br
+            a By Carter Fulford 100934267
+          .navbar-right
+            form.navbar-form
+              .form-group
+                input#searchKey.form-control(type='text', placeholder='Search')
+              button#searchBtn.btn.btn-success(type='button') Search
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/user') Logged in as: #{username}
+        // /.navbar-collapse
+    br
+    br
+    br
+    br
+    #bigPostContainer.container
+    
+    #leftSide.col-md-2
+      
+    #replyContainer.col-md-8.container
+      a(onclick='$("#replyForm").toggleClass("hidden");').btn.btn-info.bt-lg.btn-block Reply
+      br
+      form#replyForm.form-horizontal.well.hidden(action='#{post.data.id}/reply', method="post")
+        fieldset
+          .form-group
+            label.col-lg-2.control-label(for='replyBody') Reply
+            .col-lg-6
+              textarea#postBody.form-control(rows='4', name='replyBody')
+              span.help-block Body of the reply
+
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+            &nbsp;
+          button#submitReply.btn.btn-primary(type='submit', value='Submit') Submit
+      
+      h1 Replies:
+      br
+    .col-md-2
+    
+    #confirmDeleteModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#myModalLabel.modal-title Confirm Delete
+          .modal-body
+            p.deletePrompt
+            p This is irreversible, do you want to proceed?
+          .modal-footer
+            form#deleteForm.form-horizontal(action="", method="post")
+              button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+              //a#confirmDeleteBtn.btn.btn-danger.btn-ok Delete
+              button#confirmDeleteBtn.btn.btn-danger(type='submit') Delete
+
+    //
+      Bootstrap core JavaScript
+      ==================================================
+    // Placed at the end of the document so the pages load faster
+    script(src='/js/jquery.min.js')
+    script(src='/js/jquery.timeago.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/common.js')
+    script(src='/js/postPage.js')
+    

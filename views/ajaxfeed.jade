@@ -1,0 +1,85 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='icon', href='../../favicon.ico')
+    title Forum
+    // Bootstrap core CSS
+    link(href='css/bootstrap-darkly.css', rel='stylesheet')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+    // Custom styles for this template
+    link(href='css/main.css', rel='stylesheet')
+  body
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+          // <i class='fa fa-spin fa-spinner fa-2x'></i>
+          a.navbar-brand(href='/') Forum
+        #navbar.navbar-collapse.collapse
+          .navbar-left
+            br
+            a By Carter Fulford 100934267
+          .navbar-right
+            form.navbar-form(action='search', method="get")
+              .form-group
+                input#searchKey.form-control(type='text', name='searchkey', placeholder='Search')
+              button#searchBtn.btn.btn-success(type='submit') Search
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(data-toggle='modal', data-target='#submitPostModal').btn.btn-success Submit Post
+            li
+              a(href='/user') Logged in as: #{username}
+        // /.navbar-collapse
+    br
+    br
+    br
+    br
+    .container
+    .col-md-2
+    #postContainer.col-md-8.container
+    .col-md-2
+    
+
+
+    #submitPostModal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Submit Post
+          .modal-body
+            form.form-horizontal(action="submitPost", method="post")
+              fieldset
+                .form-group
+                  label.col-lg-2.control-label(for='postTitle') Post Title
+                  .col-lg-10
+                    input#postTitle.form-control(type='text', placeholder='Post Title', name='postTitle')
+                .form-group
+                  label.col-lg-2.control-label(for='postBody') Post
+                  .col-lg-10
+                    textarea#postBody.form-control(rows='8', name='postBody')
+                    span.help-block Body of the post
+          
+                button.btn.btn-default(type='button', data-dismiss='modal') Close
+                button#editSongSave.btn.btn-primary(type='submit', value='Submit') Submit
+
+    
+    //
+      Bootstrap core JavaScript
+      ==================================================
+    // Placed at the end of the document so the pages load faster
+    script(src='js/jquery.min.js')
+    script(src='js/jquery.timeago.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/common.js')
+    script(src='js/feed.js')

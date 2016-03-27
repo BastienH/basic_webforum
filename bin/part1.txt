@@ -1,0 +1,57 @@
+
+Problem 1.1)  	Produce a table consisting of the names and addresses of the subscribers and their phone numbers.
+
+        SELECT name, address, areacode, officecode, stationcode  FROM subscribers JOIN lines ON (subscribers.portid = lines.portid);
+
+Problem 1.2)    Produce a table that lists all the area code, office code combinations and the number of subscribers with that area code, office code combination.
+
+        SELECT  DISTINCT areacode, officecode, count(officecode) AS numCombination FROM lines JOIN subscribers ON lines.portid = subscribers.portid GROUP BY areacode, officecode ORDER BY areacode;
+		
+Problem 1.3)	List the names of all the subscribers who are originators of a call to someone who is also a subscriber on the same switch (i.e. a line to line call)
+
+        SELECT name FROM calls JOIN lines origLine ON (calls.originator = origLine.portid) JOIN lines AS termLine ON (calls.terminator = termLine.portid) JOIN subscribers ON (calls.originator = subscribers.portid);
+
+Problem 1.4)     Find the names and address of all subscribers who subscribe to all of the available services. (Note the result for the current data might be empty but your query should work if the TA's add more data to the databse.)
+
+        SELECT name, address, count(servicecode) as numServices
+FROM subscribers
+JOIN service_subscribers ON subscribers.portid = service_subscribers.portid
+GROUP BY name, address
+having count(servicecode) = 5;
+		
+Problem 1.5)	Find the names of all the subscribers who subscribe to at least two services.
+			
+        SELECT name, count(servicecode) AS numServices FROM service_subscribers JOIN subscribers ON (service_subscribers.portid = subscribers.portid)  GROUP BY name HAVING numServices >= 2;
+
+Problem 1.6)    Produce a table that lists the most popular service (or services). That is, give the name of the service that has the most subscribers.
+
+        SELECT servicecode FROM (SELECT servicecode, max(numServices) as numberServices FROM ( SELECT servicecode, FROM subscribers JOIN service_subscribers ON subscribers.portid = service_subscribers.portid GROUP BY servicecode
+		order by numServices));
+
+Problem 1.7)	Write an SQL query that will produce in one table a list of all the acceptable trunks that can be used to route a call to the 416 area code, office code 334. This query should list the trunks in the order of preference. (The answer should list trunks routes 416,334 then 416,000 then 000,000 for example)
+
+        SELECT trunk_routes.portid, area, office, foreign_switch FROM (SELECT * FROM trunk_routes  JOIN trunks ON (trunks.portid = trunk_routes.portid) WHERE (office = '334' OR office = '000')  ORDER BY area DESC) as trunk_routes WHERE (area = '416' OR area = '000')  ORDER BY office DESC;
+
+Problem 1.8)    Write an SQL query that would find if the line with phone number (613) 712-0024 is currently available to take a call (that it is IDLE).
+
+        SELECT channels.state FROM subscribers JOIN lines ON (subscribers.portid = lines.portid) JOIN channels ON (lines.portid = channels.portid) WHERE areacode = '613' and officecode = '712' AND stationcode = '0024';
+
+Problem 1.9)    Do the same as question 1.7 but this time only include trunks that have at least one 'IDLE' channel. That is, Write an SQL query that will produce in one table a list of all the acceptable trunks that can be used to route a call to the 416 area code, office code 334 have at least one idle channel. This query should list the trunks in the order of preference. (The answer should list trunks routes 416,334 then 416,000 then 000,000 for example)
+
+        SELECT trunk_routes.portid, area, office, foreign_switch FROM (SELECT trunks.portid AS portid, area, office, foreign_switch FROM trunk_routes  JOIN trunks ON (trunks.portid = trunk_routes.portid) WHERE (office = '334' OR office = '000')  ORDER BY area DESC) AS trunk_routes JOIN channels ON (channels.portid = trunk_routes.portid ) WHERE (area = '416' OR area = '000')  AND state = 'IDLE' GROUP BY trunk_routes.portid ORDER BY office DESC;
+
+Problem 1.10)   Produce a table that lists the name of all the service-subscribers that subscribe to at least all the same services as Jason Allison subscribes to but possibly others as well. Jason Allison rents the line with portID=2.
+
+	SELECT name from (SELECT *, count (name) as nameCount
+	from subscribers 
+	join service_subscribers on subscribers.portid = service_subscribers.portid
+	join (
+		select servicecode as sCode, pId,  numServices
+			from service_subscribers join 
+			(select subscribers.portid as pId, count(name) as numServices
+				from subscribers
+				join service_subscribers on subscribers.portid = service_subscribers.portid
+				where name = 'Jason Allison') on pId = service_subscribers.portid ) on servicecode = sCode
+			group by name
+			order by nameCount)
+			where numServices = nameCount;

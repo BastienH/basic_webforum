@@ -1,0 +1,107 @@
+Example queries for assignment 4 database
+
+1)	Produce a table consisting of the title, post body, score (sum of all votes), the username of the user that posted it, and time posted of post with id 6 (Get a single post)
+
+	SELECT posts.id, title, posts.time, body, username, sum(vote) AS score FROM posts JOIN users ON (posted_by = users.id) JOIN post_votes ON (posts.id = post_id) WHERE posts.id = 6;
+	
+	Result:
+	
+	6|What sharps are in an "A Major" scale?|2016-03-23 23:39:56||hiCarter1|4
+	
+2)	Produce a table consisting of the titles, post bodies, score (sum of all votes), the username of the user that posted it, and time posted of the 25 most recent posts. (This query will only select posts that have at least 1 vote, but there is a trigger which automatically makes a user upvote his post upon submitting it, and votes are not deleted, instead set to zero) order by latest posted to oldest (order posted not time, so by the auto-increment id)
+
+	SELECT posts.id, title, posts.time, body, username, sum(vote) AS score FROM posts JOIN users ON (posted_by = users.id) JOIN post_votes ON (posts.id = post_id) GROUP BY posts.id ORDER BY posts.id DESC LIMIT 10;
+	
+	Results:
+	
+	14|Hey guys|2016-03-24 01:07:07|What's the deal with airline peanuts?|jason|1
+	13|another useless|2016-03-24 01:04:26|post|carter3|1
+	12|I need to fill this database with more posts|2016-03-24 01:04:14||carter3|1
+	11|adsgfdsafads|2016-03-24 01:04:01|adsfdsafasd|carter3|1
+	10|djlkfahdalkufdasfdsa|2016-03-24 01:03:56|agfdsagfdaga|carter3|1
+	9|EY b0ss|2016-03-24 00:04:24|Dose anyone no wer i can find1 plase 2 fin som music in 1/13 time pls
+	|P1nkguy|2
+	7|I got a 100% authentic Dan Donegan Schecter guitar for sale|2016-03-23 23:41:12|If you love Disturbed you'll love this guitar
+	|Corndog|3
+	6|What sharps are in an "A Major" scale?|2016-03-23 23:39:56||hiCarter1|4
+	5|Good free sample packs|2016-03-23 23:39:30|Anyone know any places where I could find some good free audio samples?|bradlyn_is_cool|0
+	4|Thoughts on rondo music guitars|2016-03-23 23:31:12|I'm thinking of getting a guitar from rondomusic: http://www.rondomusic.com/electricguitar.html
+
+	does any one have any experience with them?|jason|3
+
+
+3) 	Produce a table consisting of the titles, post bodies, score (sum of all votes), the username of the user that posted it, and time posted of 10 posts after the first 10 posts? (page 2 of the feed) rder by latest posted to oldest (order posted not time, so by the auto-increment id)
+
+	SELECT posts.id, title, posts.time, body, username, sum(vote) AS score FROM posts JOIN users ON (posted_by = users.id) JOIN post_votes ON (posts.id = post_id) GROUP BY posts.id ORDER BY posts.id DESC LIMIT 10, 10 ;
+	
+	Results:
+	
+	3|dasfdasf|2016-03-23 22:37:36|adfdasfads|carter3|-2
+	2|Hey guys, anyone need a mix mastered?|2016-03-23 21:50:47|I am looking  to get some practice in so feel free to email something to work on!|mickey|3
+	1|Welcome from the admin!|2016-03-23 21:50:47|Welcome to this forum, please keep discussions appropriate and users linking to illegal content will be banned|ADMIN|4
+
+4)	What is the password hash, userid and admin status of the user with username Corndog?
+
+	SELECT id, password_hash, is_admin FROM users WHERE username = 'Corndog';
+	
+	Result:
+	
+	10|cb054f2dca7d68cace04982da110f22108e891de|0
+
+5)	What is user with id 8's vote on post with id 7
+
+	SELECT vote FROM post_votes WHERE post_id = 7 AND user_id = 8;
+	
+	Result:
+	
+	1
+
+6)	Produce a table consisting of all the reply bodies, score (sum of all votes), the username of the user that posted it, and time posted of all the replies to the post with id 7, sorted newest to oldest. order by latest posted to oldest (order posted not time, so by the auto-increment id)
+	
+	SELECT post_replies.id, post_replies.time, body, username, sum(vote) AS score FROM post_replies JOIN users ON (posted_by = users.id) JOIN reply_votes ON (post_replies.id = reply_id) WHERE reply_to = 7 GROUP BY post_replies.id ORDER BY post_replies.id;
+	
+	Result:
+	
+	8|2016-03-23 23:43:42|Are you sure it's 100% authentic?|bradlyn_is_cool|1
+	9|2016-03-23 23:46:08|200% sure 100% authentic, autographed, still has his glistening sweat on it.|Corndog|1
+
+7)	What is user with id 10's vote on post_reply with id 9 [The app stores the logged in user's id AND username for faster queries]
+
+	SELECT vote FROM reply_votes WHERE reply_id = 9 AND user_id = 10;
+	
+	Result:
+	
+	1
+	
+8)	How many replies are there to post 7?
+
+	SELECT count(id) AS numreplies FROM post_replies WHERE reply_to= 7;
+	
+	Result:
+	
+	2
+	
+
+	
+9)	Produce a table consisting of the title, post body, score (sum of all votes), the username of the user that posted it, and time posted of all posts with a title or body containing the string "Dan Donegan" i.e. a client enters "Dan Donegan" as a search term
+
+	SELECT posts.id, title, posts.time, body, username, sum(vote) AS score FROM posts  JOIN users ON (posted_by = users.id) JOIN post_votes ON (posts.id = post_id) GROUP BY posts.id HAVING (title LIKE "%Dan Donegan%" OR body LIKE "%Dan Donegan%") ORDER BY posts.id DESC LIMIT 10;
+	
+	Result:
+	
+	7|I got a 100% authentic Dan Donegan Schecter guitar for sale|2016-03-23 23:41:12|If you love Disturbed you'll love this guitar|Corndog|3
+	
+10) Produce a list of all of the posts (same format as above) for user carter3 order by latest posted to oldest (order posted not time, so by the auto-increment id) [I did not have time to implement this query into the app, but the plan was when you click on a username it shows all their posts]
+
+	SELECT posts.id, title, posts.time, body, username, sum(vote) AS score FROM posts JOIN users ON (posted_by = users.id) JOIN post_votes ON (posts.id = post_id) WHERE username = 'carter3' GROUP BY posts.id ORDER BY posts.id DESC;
+	
+	Result:
+	
+	13|another useless|2016-03-24 01:04:26|post|carter3|1
+	12|I need to fill this database with more posts|2016-03-24 01:04:14||carter3|1
+	11|adsgfdsafads|2016-03-24 01:04:01|adsfdsafasd|carter3|1
+	10|djlkfahdalkufdasfdsa|2016-03-24 01:03:56|agfdsagfdaga|carter3|1
+	3|dasfdasf|2016-03-23 22:37:36|adfdasfads|carter3|-2
+	
+
+

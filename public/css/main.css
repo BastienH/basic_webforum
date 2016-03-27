@@ -1,0 +1,121 @@
+.post-panel {
+    float: right;
+    width: 60rem;;
+}
+
+.post {
+    display:inline-block;
+}
+
+.big-post {
+    width: 82rem;
+}
+
+/* try 50% */
+.roundrect .up {
+  border-radius: 2rem 2rem 0 0;
+}
+.roundrect .down {
+  border-radius: 0 0 2rem 2rem;
+}
+.roundrect .count {
+  border-radius: .5rem .5rem;
+}
+
+
+.vote {
+    float: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-family: "Sans";
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  margin: 1.5rem;
+  margin-right: 1rem;
+  margin-top: 2.5rem;
+  z-index: 1;
+}
+
+.increment {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 0;
+      -ms-flex: 1 0 0;
+          flex: 1 0 0;
+  text-align: center;
+  opacity: .5;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.increment.up {
+  background: #00bc8c;
+  height: 50%;
+  margin-bottom: 0.25rem;
+}
+.increment.down {
+  background: tomato;
+  height: 50%;
+}
+.increment:hover {
+  opacity: 1;
+}
+
+.voted {
+  opacity: 1;
+}
+
+.count {
+  position: absolute;
+  top: 0;
+  border-radius: 0.1rem;
+  margin: 2.1rem;
+  background: #222222;
+  width: 4rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: srem;
+  text-align: center;
+  box-shadow: 0 0 0 0.5rem #222222;
+  pointer-events: none;
+}
+.count.upvoted {
+  color: #4BC35F;
+}
+.count.downvoted {
+  color: #C15044;
+}
+
+.bump {
+  -webkit-animation: bump 200ms;
+          animation: bump 200ms;
+}
+
+@-webkit-keyframes bump {
+  30% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+@keyframes bump {
+  30% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+.date {
+    text-align: right;
+    padding-right: 1em;
+}
+.delete {
+    float: right;
+}

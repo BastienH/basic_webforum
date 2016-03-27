@@ -1,0 +1,17 @@
+.songMgmt {
+    float: right;
+}
+.resetBtn {
+    float: right;
+}
+.navbar {
+    background-color: #2C3E50;
+}
+.booksPanel {
+    height: 29.5em;
+    overflow-y: scroll;
+}
+.songsPanel {
+    height: 29.5em;
+    overflow-y: scroll;
+}
